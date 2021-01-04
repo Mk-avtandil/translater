@@ -1,0 +1,62 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <header>
+        <h3 class = "logo">Mk_Avtandil</h3>
+        <nav>
+            <ul class = "nav__links">
+                <li><a href="#">Новости</a></li>
+                <li><a href="#">Переводчик</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <article id = "main_window">
+            <div class = "article_name">
+                <h1>Переводчик</h1>
+            </div>
+            <div class = "article_text">
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.user_word }}
+                    <p class="answer_from_DB" style="color: white;">
+                        {% if word_from_server %}
+                            {% for i in word_from_server %}
+                                {{i.ru}}
+                            {% endfor %}
+                        {% else %}
+                            {{"К сожалению, такого слова не найдено"}}
+                        {% endif %}
+                    </p>
+                    <button type="submit" class="translate">Перевод</button>
+                    <button class="add_new_word">Добавить новое слово</a></button>
+                </form>
+            </div>
+        </article>
+
+        <article id="additional_window">
+            <div class="article_name">
+                <h1>Добавить новое слово к БД</h1>
+            </div>
+            <div class="article_text">
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form2.en }}
+                    {{ form2.ru }}
+                    <button class="add" type="submit">Добавить</button>
+                </form>
+            </div>
+        </article>
+    </main>
+        
+    <script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>
